@@ -12,4 +12,7 @@ Route::middleware('auth')->group(function () {
     })->name('index');
     Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios');
     Route::get('/usuarios/search', [UserController::class, 'search'])->name('usuarios.search');
+    Route::post('/usuarios', [UserController::class, 'store'])->name('usuarios.store');
+    Route::delete('/usuarios/{id}', [UserController::class, 'destroy'])->name('usuarios.destroy');
+    Route::put('/usuario', [UserController::class, 'update'])->name('usuarios.update');
 });

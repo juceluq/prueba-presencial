@@ -14,9 +14,14 @@
         "vite": "^5.0"
     },
     "dependencies": {
+        "@fullcalendar/core": "^6.1.14",
+        "@fullcalendar/daygrid": "^6.1.14",
+        "@fullcalendar/list": "^6.1.14",
+        "@fullcalendar/timegrid": "^6.1.14",
         "bootstrap-icons": "^1.11.3",
         "boxicons": "^2.1.4",
         "fullcalendar": "^6.1.14",
-        "jquery": "^3.7.1"
+        "jquery": "^3.7.1",
+        "sweetalert2": "^11.6.13"
     }
 }

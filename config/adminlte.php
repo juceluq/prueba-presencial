@@ -338,7 +338,6 @@ return [
         ],
         [
             'text' => 'Administración',
-            'url' => 'admin/users',
             'icon' => 'fas fa-fw fa-user',
             'can' =>'isAdmin',
             'submenu' => [
