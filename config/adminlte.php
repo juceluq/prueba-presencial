@@ -344,7 +344,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Usuarios',
-                    'url' => 'admin/users',
+                    'url' => 'usuarios',
                     'icon' => 'fas fa-fw fa-users',
                 ],
             ],

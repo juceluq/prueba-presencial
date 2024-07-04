@@ -6,6 +6,7 @@
 
 @section('content_header')
 
+
 @stop
 
 @section('content')
@@ -15,4 +16,4 @@
 @stop
 
 
-@vite('resources/js/calendar.js')
+@vite('resources/js/calendar.js', 'resources/js/app.js')
