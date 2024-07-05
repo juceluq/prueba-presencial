@@ -233,7 +233,7 @@
         </div>
     </div>
 
-     <!-- Modal para editar usuario -->
+    <!-- Modal para editar usuario -->
     <div id="modalEditUser" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -247,7 +247,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" id="edit_id" name="id" value="{{ $user->id }}">
+                        <input type="hidden" id="edit_id" name="edit_id">
                         <div class="form-group">
                             <label>Username</label>
                             <input name="username" id="edit_username" type="text" class="form-control" required>

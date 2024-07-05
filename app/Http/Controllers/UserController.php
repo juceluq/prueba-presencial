@@ -15,17 +15,16 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $usuariosQuery = User::query();
-
+        $currentUserId = auth()->id();
+        $usuariosQuery = User::query()->where('id', '<>', $currentUserId);
 
         $sort = $request->input('sort', 'id');
         $direction = $request->input('direction', 'asc');
 
-        // Aplicar ordenamiento
         $usuarios = $usuariosQuery->orderBy($sort, $direction)->paginate(10);
-
         return view('usuarios', compact('usuarios', 'sort', 'direction'));
     }
+
 
     public function search(Request $request)
     {
@@ -108,9 +107,10 @@ class UserController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255',
                 'password' => 'nullable|string|min:8',
+                'admin' => 'nullable|string|max:255',
             ]);
 
-            $user = User::find($request->id);
+            $user = User::find($request->edit_id);
 
             if (!$user) {
                 return back()->with('alert', [
@@ -123,24 +123,24 @@ class UserController extends Controller
                 'username' => $validatedData['username'],
                 'name' => $validatedData['name'],
                 'email' => $validatedData['email'],
+                
             ];
 
             if (!empty($validatedData['password'])) {
                 $userData['password'] = Hash::make($validatedData['password']);
             }
 
-            if ($userData == $user->only(['username', 'name', 'email'])) {
+            if ($userData == $user->only(['username', 'name', 'email', 'role'])) {
                 return back()->with('alert', [
                     'type' => 'warning',
                     'message' => 'No se realizaron cambios.'
                 ]);
             }
 
+            
+            isset($validatedData['admin']) && $validatedData['admin'] ? $user->role='Admin' : $user->role='User';
 
-
-            $update = DB::table('users')
-                ->where('id', $request->id)
-                ->update($userData);
+            $update = $user->update($userData);
 
             if ($update) {
                 return back()->with('alert', [
@@ -157,12 +157,15 @@ class UserController extends Controller
             Log::error($e->getMessage());
             return back()->withErrors($e->errors())->withInput();
         } catch (QueryException $e) {
+            Log::error($e->getMessage());
             return back()->with('alert', [
                 'type' => 'danger',
                 'message' => 'Error al modificar el usuario. Por favor, inténtalo de nuevo.'
             ]);
         }
     }
+
+
 
 
     public function destroy($id)
