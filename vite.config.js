@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/js/bootstrap.js',
                 'resources/js/calendar.js',
                 'resources/js/usuarios.js',
+                'resources/js/eventos.js',
             ],
             refresh: true,
         }),

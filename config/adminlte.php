@@ -326,7 +326,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Tipo de Eventos',
-                    'url' => 'menu/child1',
+                    'url' => 'eventos',
                     'icon' => 'fas fa-fw fa-calendar-alt',
                 ],
                 [

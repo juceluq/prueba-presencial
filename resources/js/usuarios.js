@@ -12,6 +12,4 @@ $("body").on("click", ".edit-btn", function () {
     document.querySelector("#edit_email").value = email;
     document.querySelector("#edit_id").value = userId;
     document.querySelector("#edit_admin").checked = admin;
-
-    $("#modalEditUser").modal("show");
 });

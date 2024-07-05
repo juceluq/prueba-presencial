@@ -173,7 +173,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('usuarios')->with('alert', [
+        return back()->with('alert', [
             'type' => 'success',
             'message' => 'Usuario eliminado correctamente.'
         ]);
