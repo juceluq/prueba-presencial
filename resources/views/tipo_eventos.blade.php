@@ -41,12 +41,14 @@
     <!-- Formulario de búsqueda -->
     <div class="row mb-3">
         <div class="col-md-10">
-            <form id="search-form" name="search-form" action="{{ route('eventos.search') }}" method="GET" class="d-flex">
+            <form id="search-form" name="search-form" action="{{ route('tipo_eventos.search') }}" method="GET"
+                class="d-flex">
                 @csrf
                 <input type="text" name="search" class="form-control" placeholder="Buscar..."
                     value="{{ request()->input('search') }}">
                 <button type="submit" class="btn btn-primary ml-2">Buscar</button>
-                <a id="limpiar" type="button" class="btn btn-secondary ml-2" href="{{ route('eventos') }}">Limpiar</a>
+                <a id="limpiar" type="button" class="btn btn-secondary ml-2"
+                    href="{{ route('tipo_eventos') }}">Limpiar</a>
             </form>
         </div>
         <a href="#modalAddEvent" class="btn btn-outline-success d-flex align-items-center justify-content-center"
@@ -179,7 +181,7 @@
                             </button>
                         </div>
                         <form id="delete-user-form-{{ $evento->id }}" method="POST"
-                            action="{{ route('eventos.destroy', $evento->id) }}" style="display:none;">
+                            action="{{ route('tipo_eventos.destroy', $evento->id) }}" style="display:none;">
                             @csrf
                             @method('DELETE')
                         </form>
@@ -200,7 +202,7 @@
     <div id="modalAddEvent" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('eventos.store') }}" method="POST">
+                <form action="{{ route('tipo_eventos.store') }}" method="POST">
                     @csrf
                     <div class="modal-header">
                         <h4 class="modal-title">Añadir Evento</h4>
@@ -209,24 +211,35 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <!-- Campo Nombre arriba -->
                         <div class="form-group">
                             <label>Nombre</label>
                             <input name="nombre" type="text" class="form-control" value="{{ old('nombre') }}"
                                 required>
                         </div>
-                        <div class="form-group">
-                            <label>Fondo</label>
-                            <input name="fondo" type="color" class="form-control form-control-color" value="{{ old('fondo') }}" id="add_fondo"
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label>Borde</label>
-                            <input name="borde" type="color" class="form-control form-control-color" value="{{ old('borde') }}" id="add_borde"
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label>Texto</label>
-                            <input name="texto" type="color" class="form-control form-control-color" id="add_texto" required>
+                        <!-- Campos Fondo, Borde y Texto al lado -->
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Fondo</label>
+                                    <input name="fondo" type="color" class="form-control form-control-color"
+                                        value="{{ old('fondo') }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Borde</label>
+                                    <input name="borde" type="color" class="form-control form-control-color"
+                                        value="{{ old('borde') }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Texto</label>
+                                    <input name="texto" type="color" class="form-control form-control-color"
+                                        value="{{ old('texto') }}" required>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -238,11 +251,12 @@
         </div>
     </div>
 
+
     <!-- Modal para editar eventos -->
     <div id="modalEditEvento" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('eventos.update') }}" method="POST">
+                <form action="{{ route('tipo_eventos.update') }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
@@ -253,21 +267,33 @@
                     </div>
                     <div class="modal-body">
                         <input type="hidden" id="edit_id" name="edit_id">
+
+                        <!-- Campo Nombre arriba -->
                         <div class="form-group">
                             <label>Nombre</label>
                             <input name="nombre" id="edit_nombre" type="text" class="form-control" required>
                         </div>
-                        <div class="form-group">
-                            <label>Fondo</label>
-                            <input name="fondo" id="edit_fondo" type="color" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Borde</label>
-                            <input name="borde" id="edit_borde" type="color" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Texto</label>
-                            <input name="texto" id="edit_texto" type="color" class="form-control" required>
+
+                        <!-- Campos Fondo, Borde y Texto al lado -->
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Fondo</label>
+                                    <input name="fondo" id="edit_fondo" type="color" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Borde</label>
+                                    <input name="borde" id="edit_borde" type="color" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Texto</label>
+                                    <input name="texto" id="edit_texto" type="color" class="form-control" required>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -278,6 +304,8 @@
             </div>
         </div>
     </div>
+
+
 
 
     @section('js')
@@ -323,4 +351,4 @@
         <span class="text-center">©2022 Soluciones Informáticas MJ S.C.A</span>
     @stop
 @stop
-@vite('resources/js/eventos.js')
+@vite('resources/js/tipo_eventos.js')

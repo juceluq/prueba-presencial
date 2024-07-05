@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\EventoController;
+use App\Http\Controllers\TipoEventoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -17,10 +17,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/usuarios/{id}', [UserController::class, 'destroy'])->name('usuarios.destroy');
     Route::put('/usuario', [UserController::class, 'update'])->name('usuarios.update');
 
-    Route::get('/eventos', [EventoController::class, 'index'])->name('eventos');
-    Route::get('/eventos/search', [EventoController::class, 'search'])->name('eventos.search');
-    Route::post('/eventos', [EventoController::class, 'store'])->name('eventos.store');
-    Route::delete('/eventos/{id}', [EventoController::class, 'destroy'])->name('eventos.destroy');
-    Route::put('/evento', [EventoController::class, 'update'])->name('eventos.update');
+    Route::get('/tipo_eventos', [TipoEventoController::class, 'index'])->name('tipo_eventos');
+    Route::get('/tipo_eventos/search', [TipoEventoController::class, 'search'])->name('tipo_eventos.search');
+    Route::post('/tipo_eventos', [TipoEventoController::class, 'store'])->name('tipo_eventos.store');
+    Route::delete('/tipo_eventos/{id}', [TipoEventoController::class, 'destroy'])->name('tipo_eventos.destroy');
+    Route::put('/tipo_evento', [TipoEventoController::class, 'update'])->name('tipo_eventos.update');
 
 });

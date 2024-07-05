@@ -326,13 +326,9 @@ return [
             'submenu' => [
                 [
                     'text' => 'Tipo de Eventos',
-                    'url' => 'eventos',
+                    'url' => 'tipo_eventos',
                     'icon' => 'fas fa-fw fa-calendar-alt',
-                ],
-                [
-                    'text' => 'Calendario',
-                    'url' => 'menu/child2',
-                    'icon' => 'fas fa-fw fa-calendar',
+                    'can' =>'isAdmin',
                 ],
             ],
         ],

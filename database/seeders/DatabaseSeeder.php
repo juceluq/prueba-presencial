@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Evento;
+use App\Models\TipoEvento;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory(10)->create();
-        Evento::factory(10)->create();
+        TipoEvento::factory(10)->create();
 
         User::factory()->create([
             'name' => 'Admin',

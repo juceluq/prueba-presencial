@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Evento;
+use App\Models\TipoEvento;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
-class EventoController extends Controller
+class TipoEventoController extends Controller
 {
     public function index(Request $request)
     {
-        $eventoQuery = Evento::query();
+        $eventoQuery = TipoEvento::query();
 
         $sort = $request->input('sort', 'id');
         $direction = $request->input('direction', 'asc');
 
         $eventos = $eventoQuery->orderBy($sort, $direction)->paginate(10);
-        return view('eventos', compact('eventos', 'sort', 'direction'));
+        return view('tipo_eventos', compact('eventos', 'sort', 'direction'));
     }
 
 
@@ -28,7 +28,7 @@ class EventoController extends Controller
         $sort = $request->input('sort', 'id');
         $direction = $request->input('direction', 'asc');
 
-        $eventos = Evento::query()
+        $eventos = TipoEvento::query()
             ->when($search, function ($query, $search) {
                 return $query->where(function ($q) use ($search) {
                     $q->where('nombre', 'like', "%$search%");
@@ -37,7 +37,7 @@ class EventoController extends Controller
             ->orderBy($sort, $direction)
             ->paginate(10);
 
-        return view('eventos', compact('eventos', 'sort', 'direction', 'search'));
+        return view('tipo_eventos', compact('eventos', 'sort', 'direction', 'search'));
     }
 
     public function store(Request $request)
@@ -50,7 +50,7 @@ class EventoController extends Controller
                 'texto' => 'required|string|max:255',
             ]);
 
-            $evento = new Evento();
+            $evento = new TipoEvento();
             $evento->nombre = $validatedData['nombre'];
             $evento->fondo = $validatedData['fondo'];
             $evento->borde = $validatedData['borde'];
@@ -87,7 +87,7 @@ class EventoController extends Controller
                 'texto' => 'required|string|max:255',
             ]);
 
-            $evento = Evento::find($request->edit_id);
+            $evento = TipoEvento::find($request->edit_id);
 
             if (!$evento) {
                 return back()->with('alert', [
@@ -130,7 +130,7 @@ class EventoController extends Controller
 
     public function destroy($id)
     {
-        $evento = Evento::findOrFail($id);
+        $evento = TipoEvento::findOrFail($id);
         $evento->delete();
 
         return back()->with('alert', [
