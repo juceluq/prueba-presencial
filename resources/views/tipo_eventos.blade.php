@@ -211,13 +211,11 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <!-- Campo Nombre arriba -->
                         <div class="form-group">
                             <label>Nombre</label>
                             <input name="nombre" type="text" class="form-control" value="{{ old('nombre') }}"
                                 required>
                         </div>
-                        <!-- Campos Fondo, Borde y Texto al lado -->
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">

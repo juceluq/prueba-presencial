@@ -15,4 +15,8 @@ class TipoEvento extends Model
         'borde',
         'texto',
     ];
+
+    public function eventos(){
+        return $this->hasMany(Evento::class);
+    }
 }

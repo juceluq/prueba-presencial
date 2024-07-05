@@ -42,6 +42,26 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         height: "auto",
         events: "/apiGetEventos",
+        eventClick: function (info) {
+            $("#edit_id").val(info.event.id);
+            $("#edit_tipo_id").val(info.event.extendedProps.tipo_evento_id);
+            $("#edit_titulo").val(info.event.title);
+            $("#modalEditEvent").modal("show");
+
+            var selectTipoEvento =
+                document.getElementById("choose_tipo_evento");
+
+            for (var i = 0; i < selectTipoEvento.options.length; i++) {
+                if (
+                    selectTipoEvento.options[i].value ==
+                    info.event.extendedProps.tipo_evento_id
+                ) {
+                    selectTipoEvento.options[i].selected = true;
+                } else {
+                    selectTipoEvento.options[i].selected = false;
+                }
+            }
+        },
     });
     calendar.render();
 });

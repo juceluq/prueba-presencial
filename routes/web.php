@@ -3,6 +3,8 @@
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\TipoEventoController;
 use App\Http\Controllers\UserController;
+use App\Models\Evento;
+use App\Models\TipoEvento;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -10,7 +12,9 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {
-        return view('index');
+        $tipoEventos = TipoEvento::all();
+        $eventos = Evento::all();	
+        return view('index', compact('tipoEventos', 'eventos'));
     })->name('index');
     Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios');
     Route::get('/usuarios/search', [UserController::class, 'search'])->name('usuarios.search');
@@ -24,5 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/tipo_eventos/{id}', [TipoEventoController::class, 'destroy'])->name('tipo_eventos.destroy');
     Route::put('/tipo_evento', [TipoEventoController::class, 'update'])->name('tipo_eventos.update');
 
+    Route::post('/eventos', [EventoController::class, 'store'])->name('eventos.store');
     Route::get('/apiGetEventos', [EventoController::class, 'apiGetEventos'])->name('apiGetEvent');
+    Route::put('/evento', [EventoController::class, 'update'])->name('eventos.update');
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Evento;
 use App\Http\Requests\StoreEventoRequest;
 use App\Http\Requests\UpdateEventoRequest;
+use App\Models\TipoEvento;
 use Carbon\Carbon;
 
 class EventoController extends Controller
@@ -67,13 +68,20 @@ class EventoController extends Controller
 
     public function apiGetEventos()
     {
-
-        $eventos = Evento::select('id', 'titulo', 'fecha_inicio', 'fecha_fin', 'tipo_evento_id')->get();
+        $eventos = Evento::with('tipoEvento:id,nombre,fondo,borde,texto')->get();
         $eventos->transform(function ($evento) {
             $evento->title = $evento->titulo;
             $evento->start = Carbon::parse($evento->fecha_inicio)->subHours(2)->toIso8601String();
             $evento->end = Carbon::parse($evento->fecha_fin)->subHours(2)->toIso8601String();
-            unset($evento->fecha_inicio, $evento->fecha_fin, $evento->titulo);
+
+            if ($evento->tipoEvento) {
+                $evento->color = $evento->tipoEvento->fondo;
+                $evento->textColor = $evento->tipoEvento->texto;
+                $evento->borderColor = $evento->tipoEvento->borde;
+            }
+
+            unset($evento->fecha_inicio, $evento->fecha_fin, $evento->titulo, $evento->tipoEvento);
+
             return $evento;
         });
 
