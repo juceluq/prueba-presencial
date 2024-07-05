@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventoController;
 use App\Http\Controllers\TipoEventoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -23,4 +24,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('/tipo_eventos/{id}', [TipoEventoController::class, 'destroy'])->name('tipo_eventos.destroy');
     Route::put('/tipo_evento', [TipoEventoController::class, 'update'])->name('tipo_eventos.update');
 
+    Route::get('/apiGetEventos', [EventoController::class, 'apiGetEventos'])->name('apiGetEvent');
 });
