@@ -30,6 +30,7 @@ class UserFactory extends Factory
             'role' => fake()->randomElement(['Admin', 'User']),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'activado' => fake()->boolean(),
             'remember_token' => Str::random(10),
         ];
     }

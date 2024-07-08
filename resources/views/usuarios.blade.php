@@ -123,9 +123,9 @@
                 </th>
                 <th class="text-center sortable">
                     <a
-                        href="{{ request()->fullUrlWithQuery(['sort' => 'role', 'direction' => $sort == 'role' && $direction == 'asc' ? 'desc' : 'asc']) }}">
-                        Admin
-                        @if ($sort == 'role')
+                        href="{{ request()->fullUrlWithQuery(['sort' => 'activado', 'direction' => $sort == 'activado' && $direction == 'asc' ? 'desc' : 'asc']) }}">
+                        Activado
+                        @if ($sort == 'activado')
                             <span class="sort-icon">
                                 @if ($direction == 'asc')
                                     <i class='bx bx-chevron-up'></i>
@@ -146,8 +146,9 @@
                     <td class="text-center login">{{ $user->username }}</td>
                     <td class="text-center nombre">{{ $user->name }}</td>
                     <td class="text-center email">{{ $user->email }}</td>
-                    <td class="text-center role">
-                        @if ($user->role == 'Admin')
+                    <td style="display:none" class="role">{{$user->role}}</td>
+                    <td class="text-center activado">
+                        @if ($user->activado == true)
                             <i class='bx bx-check' style="font-size: 1.75rem;"></i>
                         @else
                             <i class='bx bx-x' style="font-size: 1.75rem;"></i>
@@ -219,6 +220,11 @@
                             <input name="password" type="password" class="form-control" required>
                         </div>
                         <div class="form-check">
+                            <input name="activado" type="checkbox" class="form-check-input" id="flexCheckActivado"
+                                {{ old('activado') ? 'checked' : '' }}>
+                            <label class="form-check-label" for="flexCheckActivado">Activado</label>
+                        </div>
+                        <div class="form-check">
                             <input name="admin" type="checkbox" class="form-check-input" id="flexCheck"
                                 {{ old('admin') ? 'checked' : '' }}>
                             <label class="form-check-label" for="flexCheck">Administrador</label>
@@ -264,6 +270,10 @@
                             <label>Contraseña</label>
                             <input name="password" id="edit_password" type="password" class="form-control">
                             <small>Si no desea cambiarlo, dejalo en blanco.</small>
+                        </div>
+                        <div class="form-check">
+                            <input name="activado" type="checkbox" class="form-check-input" id="edit_activado">
+                            <label class="form-check-label" for="edit_activado">Activado</label>
                         </div>
                         <div class="form-check">
                             <input name="admin" type="checkbox" class="form-check-input" id="edit_admin">

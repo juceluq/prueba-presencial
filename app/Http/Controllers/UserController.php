@@ -53,13 +53,13 @@ class UserController extends Controller
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string',
             ]);
-
             $user = new User();
             $user->name = $validatedData['name'];
             $user->username = $validatedData['username'];
             $user->email = $validatedData['email'];
             $user->password = bcrypt($validatedData['password']);
             $user->role = $request->admin ? 'Admin' : 'User';
+            $user->activado = $request->activado ? 1 : 0;
 
             if ($user->save()) {
                 return back()->with('alert', [
@@ -106,6 +106,7 @@ class UserController extends Controller
                 'email' => 'required|string|email|max:255',
                 'password' => 'nullable|string|min:8',
                 'admin' => 'nullable|string|max:255',
+                'activado' => 'nullable|string|max:255',
             ]);
 
             $user = User::find($request->edit_id);
@@ -137,6 +138,7 @@ class UserController extends Controller
 
             
             isset($validatedData['admin']) && $validatedData['admin'] ? $user->role='Admin' : $user->role='User';
+            isset($validatedData['activado']) && $validatedData['activado'] ? $user->activado=1 : $user->activado=0;
 
             $update = $user->update($userData);
 

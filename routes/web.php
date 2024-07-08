@@ -16,8 +16,17 @@ Route::middleware('auth')->group(function () {
 
     //TODO Ruta de index 
     Route::get('/', function () {
+
+        if (Auth::check() && !Auth::user()->activado) {
+            Auth::logout();
+            return redirect('/login')->with('alert', [
+                'type' => 'danger',
+                'message' => 'Debes activar tu cuenta para acceder al sistema.'
+            ]);
+        }
+
         $tipoEventos = TipoEvento::all();
-        $eventos = Evento::all();	
+        $eventos = Evento::all();
         return view('index', compact('tipoEventos', 'eventos'));
     })->name('index');
 

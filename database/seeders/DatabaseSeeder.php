@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin'),
             'email' => 'admin@example.com',
             'role' => 'Admin',
+            'activado' => true,
         ]);
         User::factory()->create([
             'name' => 'User',
@@ -32,6 +33,15 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('user'),
             'email' => 'user@example.com',
             'role' => 'User',
+            'activado' => true,
+        ]);
+        User::factory()->create([
+            'name' => 'noActivado',
+            'username' => 'noActivado',
+            'password' => bcrypt('noActivado'),
+            'email' => 'noActivado@example.com',
+            'role' => 'User',
+            'activado' => false,
         ]);
     }
 }
