@@ -14,6 +14,65 @@
 
     <div id='calendar'></div>
 
+    <!-- Modal para añadir evento -->
+    <div id="modalAddEvent" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ route('eventos.store') }}" method="POST">
+                    @csrf
+                    @method('POST')
+                    <div class="modal-header">
+                        <h4 class="modal-title">Añadir Evento</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="add_startDate">Fecha / Hora de inicio</label>
+                                    <input id="add_startDate" name="add_startDate" class="form-control"
+                                        type="datetime-local" />
+                                    <span id="startDateSelected"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="add_endDate">Fecha / Hora de fin</label>
+                                    <input id="add_endDate" name="add_endDate" class="form-control" type="datetime-local" />
+                                    <span id="endDateSelected"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="add_titulo">Título</label>
+                            <input name="add_titulo" id="add_titulo" type="text" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="choose_tipo_evento">Tipo de evento</label>
+                            <select name="choose_tipo_evento" id="choose_tipo_evento" class="form-select" required>
+                                @foreach ($tipoEventos as $tipoEvento)
+                                    <option value="{{ $tipoEvento->id }}">
+                                        {{ $tipoEvento->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Añadir</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+
     <!-- Modal para editar evento -->
     <div id="modalEditEvent" class="modal fade">
         <div class="modal-dialog">
@@ -79,7 +138,7 @@
                         </button>
                     </form>
                 @endif
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>

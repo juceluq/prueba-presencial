@@ -17,10 +17,42 @@ class EventoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreEventoRequest $request)
+    public function store(Request $request)
     {
-        //
-    }
+        try {
+            $validatedData = $request->validate([
+                'choose_tipo_evento' => 'required|integer',
+                'add_startDate' => 'required|date_format:Y-m-d\TH:i',
+                'add_endDate' => 'required|date_format:Y-m-d\TH:i',
+                'add_titulo' => 'required|string|max:255',
+            ]);
+
+            $evento = new Evento();
+            $evento->titulo = $validatedData['add_titulo'];
+            $evento->fecha_inicio = $validatedData['add_startDate'];
+            $evento->fecha_fin = $validatedData['add_endDate'];
+            $evento->tipo_evento_id = $validatedData['choose_tipo_evento'];
+
+            if ($evento->save()) {
+                return back()->with('alert', [
+                    'type' => 'success',
+                    'message' => 'Evento creado correctamente.'
+                ]);
+            } else {
+                return back()->with('alert', [
+                    'type' => 'danger',
+                    'message' => 'Error al crear el evento. Por favor, inténtalo de nuevo.'
+                ]);
+            }
+        } catch (ValidationException $e) {
+            $errors = $e->validator->errors();
+            Log::error($e->getMessage());
+            return back()->with('alert', [
+                'type' => 'danger',
+                'message' => 'Hubo errores en la validación. Por favor, revisa los campos e inténtalo de nuevo.'
+            ])->withErrors($errors)->withInput();
+        }
+}
     /**
      * Update the specified resource in storage.
      */
