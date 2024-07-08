@@ -8,6 +8,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "boxicons";
 
 document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById('delete-form');
     let calendarEl = document.getElementById("calendar");
     let calendar = new Calendar(calendarEl, {
         plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
@@ -46,8 +47,18 @@ document.addEventListener("DOMContentLoaded", function () {
             $("#edit_id").val(info.event.id);
             $("#edit_tipo_id").val(info.event.extendedProps.tipo_evento_id);
             $("#edit_titulo").val(info.event.title);
+            $("#delete_id").val(info.event.id);
             $("#modalEditEvent").modal("show");
-
+            $("#edit_startDate").val(
+                new Date(info.event.start.getTime() + 2 * 60 * 60 * 1000)
+                    .toISOString()
+                    .substring(0, 16)
+            );
+            $("#edit_endDate").val(
+                new Date(info.event.end.getTime() + 2 * 60 * 60 * 1000)
+                    .toISOString()
+                    .substring(0, 16)
+            );
             var selectTipoEvento =
                 document.getElementById("choose_tipo_evento");
 
@@ -64,4 +75,17 @@ document.addEventListener("DOMContentLoaded", function () {
         },
     });
     calendar.render();
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const deleteId = document.getElementById('delete_id').value;
+        if (deleteId) {
+            const action = form.action.replace('reemplazar', deleteId);
+            form.action = action;
+            form.submit();
+        } else {
+            alert('El ID a eliminar no puede estar vacío.');
+        }
+    });
 });

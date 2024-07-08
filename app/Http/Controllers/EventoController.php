@@ -7,25 +7,13 @@ use App\Http\Requests\StoreEventoRequest;
 use App\Http\Requests\UpdateEventoRequest;
 use App\Models\TipoEvento;
 use Carbon\Carbon;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class EventoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -33,37 +21,78 @@ class EventoController extends Controller
     {
         //
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Evento $evento)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Evento $evento)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateEventoRequest $request, Evento $evento)
+    public function update(Request $request)
     {
-        //
+        try {
+            $validatedData = $request->validate([
+                'edit_startDate' => 'required|date_format:Y-m-d\TH:i',
+                'edit_endDate' => 'required|date_format:Y-m-d\TH:i',
+                'edit_titulo' => 'required|string|max:255',
+                'choose_tipo_evento' => 'required|integer',
+            ]);
+
+            $evento = Evento::find($request->edit_id);
+
+            if (!$evento) {
+                return back()->with('alert', [
+                    'type' => 'danger',
+                    'message' => 'Evento no encontrado.'
+                ]);
+            }
+            $eventoData = [
+                'fecha_inicio' => $validatedData['edit_startDate'],
+                'fecha_fin' => $validatedData['edit_endDate'],
+                'titulo' => $validatedData['edit_titulo'],
+                'tipo_evento_id' => $validatedData['choose_tipo_evento'],
+            ];
+
+            if ($request->edit_startDate > $request->edit_endDate || $request->edit_endDate < $request->edit_startDate) {
+                return back()->with('alert', [
+                    'type' => 'danger',
+                    'message' => 'La fecha de finalización no puede ser anterior a la de inicio.'
+                ]);
+            }
+
+            $update = $evento->update($eventoData);
+
+            if ($update) {
+                return back()->with('alert', [
+                    'type' => 'success',
+                    'message' => 'Evento modificado correctamente.'
+                ]);
+            } else {
+                return back()->with('alert', [
+                    'type' => 'danger',
+                    'message' => 'Error al modificar el evento. Por favor, inténtalo de nuevo.'
+                ]);
+            }
+        } catch (ValidationException $e) {
+            Log::error($e->getMessage());
+            return back()->withErrors($e->errors())->withInput();
+        } catch (QueryException $e) {
+            Log::error($e->getMessage());
+            return back()->with('alert', [
+                'type' => 'danger',
+                'message' => 'Error al modificar el evento. Por favor, inténtalo de nuevo.'
+            ]);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Evento $evento)
+    public function destroy($id)
     {
-        //
+        $evento = Evento::findOrFail($id);
+        $evento->delete();
+
+        return back()->with('alert', [
+            'type' => 'success',
+            'message' => 'Evento eliminado correctamente.'
+        ]);
     }
 
     public function apiGetEventos()

@@ -82,7 +82,21 @@
 
     {{-- Body Content --}}
     @yield('body')
-
+    @if (session('alert'))
+    <div class="alert alert-{{ session('alert')['type'] }} alert-dismissible fade show position-fixed top-0 start-0 m-3"
+        role="alert" style="opacity: 0.9; z-index: 1050; max-width: 400px;">
+        {{ session('alert')['message'] }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <script>
+        setTimeout(function() {
+            $('.alert').fadeOut('slow');
+        }, 3000);
+    </script>
+    @endif
+    
     {{-- Base Scripts --}}
     @if(!config('adminlte.enabled_laravel_mix'))
         <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>

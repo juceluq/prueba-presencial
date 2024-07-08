@@ -131,6 +131,13 @@ class TipoEventoController extends Controller
     public function destroy($id)
     {
         $evento = TipoEvento::findOrFail($id);
+        if ($evento->eventos()->count() > 0) {
+            return back()->with('alert', [
+                'type' => 'danger',
+                'message' => 'No se puede eliminar el evento porque hay eventos asociados.'
+            ]);
+        }
+
         $evento->delete();
 
         return back()->with('alert', [

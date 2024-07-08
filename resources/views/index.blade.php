@@ -5,10 +5,13 @@
 @section('title', 'Prueba')
 
 @section('content_header')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 @stop
 
 @section('content')
+
+
     <div id='calendar'></div>
 
     <!-- Modal para editar evento -->
@@ -17,6 +20,7 @@
             <div class="modal-content">
                 <form action="{{ route('eventos.update') }}" method="POST">
                     @csrf
+                    @method('PUT')
                     <input type="hidden" name="edit_id" id="edit_id">
                     <input type="hidden" name="edit_tipo_id" id="edit_tipo_id">
                     <div class="modal-header">
@@ -29,25 +33,27 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="startDate">Start</label>
-                                    <input id="startDate" class="form-control" type="date" />
+                                    <label for="edit_startDate">Fecha / Hora de inicio</label>
+                                    <input id="edit_startDate" name="edit_startDate" class="form-control"
+                                        type="datetime-local" />
                                     <span id="startDateSelected"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="endDate">End</label>
-                                    <input id="endDate" class="form-control" type="date" />
+                                    <label for="edit_endDate">Fecha / Hora de fin</label>
+                                    <input id="edit_endDate" name="edit_endDate" class="form-control"
+                                        type="datetime-local" />
                                     <span id="endDateSelected"></span>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="edit_titulo">Título</label>
                             <input name="edit_titulo" id="edit_titulo" type="text" class="form-control" required>
                         </div>
-    
+
                         <div class="form-group">
                             <label for="choose_tipo_evento">Tipo de evento</label>
                             <select name="choose_tipo_evento" id="choose_tipo_evento" class="form-select" required>
@@ -60,17 +66,30 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-success">Guardar Cambios</button>
-                    </div>
                 </form>
+
+                @if (Auth::user()->role === 'Admin')
+                    <form id="delete-form" method="POST" action="{{ route('eventos.destroy', 'reemplazar') }}">
+                        @method('DELETE')
+                        @csrf
+                        <input type="hidden" name="delete_id" id="delete_id">
+                        <button type="submit" class="delete-btn btn btn-danger event-delete-btn">
+                            Borrar
+                        </button>
+                    </form>
+                @endif
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>
-    
+    </div>
+    </div>
+
 
 
 @stop
+
 
 @section('footer')
     <p>Tiempo restante de sesión: </p>
